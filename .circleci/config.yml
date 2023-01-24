@@ -333,6 +333,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update curl
+            apk add --update sudo
       - install_awscli
       - run:
           name: Get backend url
