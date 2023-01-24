@@ -226,8 +226,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      # - restore_cache:
-      #     keys: backend-build-{{ checksum "backend/package-lock.json" }}
+      - restore_cache:
+          keys: backend-build-{{ checksum "backend/package-lock.json" }}
       - install_awscli
       - run:
           name: Run migrations
@@ -240,7 +240,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-                curl https://kvdb.io/Wkh8LEN6Qqe3VFKSGcqapE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl --insecure https://kvdb.io/Wkh8LEN6Qqe3VFKSGcqapE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - destroy-environment 
 
