@@ -313,7 +313,8 @@ jobs:
 
             cd ..
             mkdir -p .circleci/ansible/roles/deploy/files
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files/
+            ls .circleci/ansible/roles/deploy/files/
       - run:
           name: Deploy backend
           command: |
