@@ -234,8 +234,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: backend-build-{{ checksum "backend/package-lock.json" }}
+      # - restore_cache:
+      #     keys: backend-build-{{ checksum "backend/package-lock.json" }}
       - install_awscli
       - run:
           name: Run migrations
@@ -258,8 +258,8 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: frontend-build-{{ checksum "frontend/package-lock.json" }}
+      # - restore_cache:
+      #     keys: frontend-build-{{ checksum "frontend/package-lock.json" }}
       - attach_workspace:
           at: ~/
       - install_awscli
@@ -293,8 +293,8 @@ jobs:
       - image: cimg/python:3.10
     steps:
       - checkout
-      - restore_cache:
-          keys: backend-build-{{ checksum "backend/package-lock.json" }}
+      # - restore_cache:
+      #     keys: backend-build-{{ checksum "backend/package-lock.json" }}
       - add_ssh_keys:
           fingerprints: ["7d:09:71:54:63:cb:95:0f:65:01:44:11:51:44:41:97"]
       - attach_workspace:
