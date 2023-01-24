@@ -329,11 +329,11 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
-      - install_awscli
       - run:
           name: Install dependencies
           command: |
             apk add --update curl
+      - install_awscli
       - run:
           name: Get backend url
           command: |
