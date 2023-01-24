@@ -326,15 +326,13 @@ jobs:
 
   smoke-test:
     docker:
-      - image: alpine:latest
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
           name: Install dependencies
           command: |
-            apk add --update curl
-            apk add --update sudo
-      - install_awscli
+            yum install curl
       - run:
           name: Get backend url
           command: |
