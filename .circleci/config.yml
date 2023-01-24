@@ -32,7 +32,7 @@ commands:
             then
              cd ~/project/backend
              npm install
-             npm install
+             npm run migration:revert
             fi
 
   install_awscli:
@@ -347,6 +347,7 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
+            curl -s $API_URL/api/status
             if curl -s $API_URL/api/status | grep "ok"
             then
                 exit 0
