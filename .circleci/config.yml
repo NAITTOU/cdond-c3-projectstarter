@@ -329,6 +329,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - install_awscli
       - run:
           name: Install dependencies
           command: |
