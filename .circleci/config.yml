@@ -27,13 +27,12 @@ commands:
           # Add when this will run
           command: |
             # Curl command here to see if there was a successful migration associated with the workflow id, store result in SUCCESS variable
-            SUCCESS = 1
+            SUCCESS=$(curl --insecure https://kvdb.io/Wkh8LEN6Qqe3VFKSGcqapE/migration_${CIRCLE_WORKFLOW_ID:0:7})
             if(( $SUCCESS==1 )); 
             then
-            #  cd ~/project/backend
-            #  npm install
-            #  Add revert code here. You can find this in the Getting Started section.
-              exit 1
+             cd ~/project/backend
+             npm install
+             npm install
             fi
 
   install_awscli:
@@ -251,7 +250,8 @@ jobs:
             then
                 curl --insecure https://kvdb.io/Wkh8LEN6Qqe3VFKSGcqapE/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
-      - destroy-environment 
+      - destroy-environment
+      - revert-migrations 
 
   deploy-frontend:
     docker:
@@ -285,7 +285,8 @@ jobs:
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - destroy-environment   
+      - destroy-environment
+      - revert-migrations 
                     
   deploy-backend:
     docker:
@@ -322,7 +323,8 @@ jobs:
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - destroy-environment 
+      - destroy-environment
+      - revert-migrations 
 
   smoke-test:
     docker:
@@ -364,6 +366,7 @@ jobs:
               exit 1
             fi
       - destroy-environment 
+      - revert-migrations
 
 #   cloudfront-update:
 #     docker:
