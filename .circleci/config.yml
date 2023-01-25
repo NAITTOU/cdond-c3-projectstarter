@@ -418,7 +418,7 @@ jobs:
               cat ~/OldWokflowID.txt
               cat /root/OldWokflowID.txt
               export OldWorkflowID=$( cat ~/OldWokflowID.txt )
-              echo "Old Wokflow ID: $OLD_WORKFLOW_ID"
+              echo "Old Wokflow ID: $OldWorkflowID"
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
               echo Stack names: "${STACKS[@]}"
@@ -428,6 +428,9 @@ jobs:
                 aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
                 aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
                 aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+                echo "---------------------------- Delete confirmed ----------------------------"
+              else
+                echo "---------------------------- Cannot Delete  ----------------------------"
               fi
         - destroy-environment 
         - revert-migrations 
