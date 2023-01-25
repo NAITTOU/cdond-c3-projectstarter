@@ -382,6 +382,7 @@ jobs:
                         --no-paginate --output text)
                 echo "Old Wokflow ID: $OLD_WORKFLOW_ID"
                 echo $OLD_WORKFLOW_ID >> ~/OldWokflowID.txt
+                cat  ~/OldWokflowID.txt
       - save_cache:
           key: old_workflow_id-${CIRCLE_WORKFLOW_ID:0:7}
           paths: 
@@ -414,7 +415,9 @@ jobs:
         - run:
             name: Remove old stacks and files
             command: |
-              export OldWorkflowID=$(cat ~/OldWokflowID.txt)
+              cat ~/OldWokflowID.txt
+              cat /root/OldWokflowID.txt
+              export OldWorkflowID=$( cat ~/OldWokflowID.txt )
               echo "Old Wokflow ID: $OLD_WORKFLOW_ID"
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
