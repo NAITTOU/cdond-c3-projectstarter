@@ -393,7 +393,7 @@ jobs:
                 echo $OLD_WORKFLOW_ID >> ~/OldWokflowID.txt
                 cat  ~/OldWokflowID.txt
       - save_cache:
-          key: old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
+          key: old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID }}
           paths: 
             - ~/OldWokflowID.txt   
       - run:
@@ -419,7 +419,7 @@ jobs:
               yum install -y tar gzip
         - restore_cache:
             keys: 
-              - old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
+              - old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID }}
         - run:
             name: Remove old stacks and files
             command: |
