@@ -73,7 +73,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: frontend-build-{{ checksum "frontend/package-lock.json" }}
+          keys: 
+            - frontend-build-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Build front-end
           command: |
@@ -81,16 +82,18 @@ jobs:
             npm install
             npm run build
       - save_cache:
-          paths: [frontend/node_modules]
           key: frontend-build-{{ checksum "frontend/package-lock.json" }}
-
+          paths: 
+            - frontend/node_modules
+          
   build-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
       - checkout
       - restore_cache:
-          keys: backend-build-{{ checksum "backend/package-lock.json" }}
+          keys: 
+            - backend-build-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Build Back-end 
           command: |
@@ -98,8 +101,10 @@ jobs:
              npm install
              npm run build
       - save_cache:
-          paths: [backend/node_modules]
           key: backend-build-{{ checksum "backend/package-lock.json" }}
+          paths: 
+            - backend/node_modules
+          
 
   test-frontend:
     docker:
@@ -107,7 +112,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: frontend-build-{{ checksum "frontend/package-lock.json" }}
+          keys: 
+            - frontend-build-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Test front-end
           command: |
@@ -121,7 +127,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: backend-build-{{ checksum "backend/package-lock.json" }}
+          keys: 
+            - backend-build-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Test Back-end
           command: |
@@ -135,7 +142,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: frontend-build-{{ checksum "frontend/package-lock.json" }}
+          keys: 
+            - frontend-build-{{ checksum "frontend/package-lock.json" }}
       - run:
           name: Scan front-end
           command: |
@@ -151,7 +159,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: backend-build-{{ checksum "backend/package-lock.json" }}
+          keys: 
+            - backend-build-{{ checksum "backend/package-lock.json" }}
       - run:
           name: Scan Back-end
           command: |
@@ -384,7 +393,7 @@ jobs:
                 echo $OLD_WORKFLOW_ID >> ~/OldWokflowID.txt
                 cat  ~/OldWokflowID.txt
       - save_cache:
-          key: old_workflow_id-${CIRCLE_WORKFLOW_ID:0:7}
+          key: old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
           paths: 
             - ~/OldWokflowID.txt   
       - run:
@@ -410,7 +419,7 @@ jobs:
               yum install -y tar gzip
         - restore_cache:
             keys: 
-              - old_workflow_id-${CIRCLE_WORKFLOW_ID:0:7}
+              - old_workflow_id-{{ .Environment.CIRCLE_WORKFLOW_ID:0:7 }}
         - run:
             name: Remove old stacks and files
             command: |
