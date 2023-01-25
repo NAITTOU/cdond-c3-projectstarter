@@ -424,7 +424,6 @@ jobs:
             name: Remove old stacks and files
             command: |
               cat ~/OldWokflowID.txt
-              cat /root/OldWokflowID.txt
               export OldWorkflowID=$( cat ~/OldWokflowID.txt )
               echo "Old Wokflow ID: $OldWorkflowID"
               export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
