@@ -404,6 +404,10 @@ jobs:
         - image: amazon/aws-cli
       steps:
         - checkout
+        - run:
+          name: Install tar utility
+          command: |
+            yum install -y tar gzip
         - restore_cache:
             keys: 
               - old_workflow_id
