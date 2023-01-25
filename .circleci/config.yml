@@ -339,7 +339,7 @@ jobs:
           command: |
             yum install curl
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -347,9 +347,7 @@ jobs:
               --output text)
             export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
             echo "${API_URL}"
-      - run:
-          name: Backend smoke test.
-          command: |
+
             echo "curl -s $API_URL/api/status"
             if curl -s $API_URL/api/status | grep "ok"
             then
